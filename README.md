@@ -2,7 +2,6 @@
 
 ![Kali Linux](https://img.shields.io/badge/Kali%20Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
 ![Hack The Box](https://img.shields.io/badge/Hack%20The%20Box-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)
-![Starting Point](https://img.shields.io/badge/HTB%20Starting%20Point-Completado-2ECC71?style=for-the-badge&logo=hackthebox&logoColor=white)
 
 En este repositorio almaceno mis writeups con documentación detallada, análisis de vulnerabilidades y guías de remediación de máquinas y retos de ciberseguridad resueltos de forma práctica.
 
@@ -13,9 +12,10 @@ En este repositorio almaceno mis writeups con documentación detallada, análisi
 ```text
 cybersecurity-writeups/
 ├── 📁 HTB/
-│   └── 📄 management.htb.md        # OpenAM RCE (CVE-2026-33439), GLPI & rdiff-backup
+│   └── 📄 [management.htb.md](./HTB/management.htb.md)        # OpenAM RCE (CVE-2026-33439), GLPI & rdiff-backup
 ├── 📁 CTFs/
-│   └── 📄                          # Competencias y eventos
+│   └── 📁 USM_27_11/                         # Competencias y eventos
+│       └── 📄 fuzzer
 └── 📄 README.md                    # README Principal del repositorio
 ```
 
@@ -39,15 +39,14 @@ cybersecurity-writeups/
 
 ---
 
-## Metodología Aplicada
+## Metodología Aplicada Constantemente
 
 Cada writeup sigue un flujo estructurado orientado tanto a la explotación como a la defensa:
-
-1. **Reconocimiento y Escaneo:** Descubrimiento de puertos, servicios, subdominios y superficies de exposición (`nmap`, `fuzzing`).
-2. **Enumeración Profunda:** Análisis de protocolos de directorio (`ldap`), código fuente web y *fingerprinting* de versiones.
-3. **Explotación y Movimiento Lateral:** Análisis de causa raíz de vulnerabilidades (`CVEs`), obtención de sesiones interactivas y recuperación/descifrado de credenciales internas.
-4. **Escalada de Privilegios:** Auditoría de permisos locales (`sudo -l`), binarios y configuraciones inseguras hasta obtener `root`.
-5. **Remediación y Mitigación:** Recomendaciones técnicas concretas para cerrar cada vector identificado.
+**Reconocimiento y Escaneo:** Descubrimiento de puertos, servicios, subdominios y superficies de exposición (`nmap`, `fuzzing`).
+**Enumeración Profunda:** Análisis de protocolos de directorio (`ldap`), código fuente web y *fingerprinting* de versiones.
+**Explotación y Movimiento Lateral:** Análisis de causa raíz de vulnerabilidades (`CVEs`), obtención de sesiones interactivas y recuperación/descifrado de credenciales internas.
+**Escalada de Privilegios:** Auditoría de permisos locales (`sudo -l`), binarios y configuraciones inseguras hasta obtener `root`.
+**Remediación y Mitigación:** Recomendaciones técnicas concretas para cerrar cada vector identificado.
 
 ---
 
