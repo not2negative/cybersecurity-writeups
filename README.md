@@ -9,15 +9,14 @@ En este repositorio almaceno mis writeups con documentación detallada, análisi
 
 ## Mapa detallado del repositorio
 
-```text
-cybersecurity-writeups/
-├── 📁 HTB/
-│   └── 📄 [management.htb.md](./HTB/management.htb.md)        # OpenAM RCE (CVE-2026-33439), GLPI & rdiff-backup
-├── 📁 CTFs/
-│   └── 📁 USM_27_11/                         # Competencias y eventos
-│       └── 📄 fuzzer
-└── 📄 README.md                    # README Principal del repositorio
-```
+<pre>
+📂 <b>cybersecurity-writeups/</b>
+├── 📁 <a href="./HTB">HTB/</a>
+│   └── 📄 <a href="./HTB/management.htb.md">management.htb.md</a>        # OpenAM RCE (CVE-2026-33439), GLPI &amp; rdiff-backup
+├── 📁 <a href="./CTFs">CTFs/</a>
+│   └── 📁 <a href="./CTFs/USM%2027.11">USM 27.11/</a>                    # Competencias y eventos
+└── 📄 <a href="./README.md">README.md</a>                                # README Principal del repositorio
+</pre>
 
 ---
 
