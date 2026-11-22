@@ -3,6 +3,8 @@ La máquina Management en Hack The Box es un laboratorio basado en Linux calific
 
 En esta ocasión veremos tecnologías clave como lo son *OpenAM*, *OpenDJ (LDAP)*, *GLPI* y *rdiff-backup*.
 
+Link oficial de la maquina: https://app.hackthebox.com/machines/Management
+
 ## Cadena de ataque
 ### 1. Enumeración y acceso inicial
 - Al escanear los puertos se descubren dominios y subdominios
