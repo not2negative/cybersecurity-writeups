@@ -42,11 +42,11 @@ En este repositorio almaceno mis writeups con documentación detallada, análisi
 ## Metodología Aplicada Constantemente
 
 Cada writeup sigue un flujo estructurado orientado tanto a la explotación como a la defensa:
-**Reconocimiento y Escaneo:** Descubrimiento de puertos, servicios, subdominios y superficies de exposición (`nmap`, `fuzzing`).
-**Enumeración Profunda:** Análisis de protocolos de directorio (`ldap`), código fuente web y *fingerprinting* de versiones.
-**Explotación y Movimiento Lateral:** Análisis de causa raíz de vulnerabilidades (`CVEs`), obtención de sesiones interactivas y recuperación/descifrado de credenciales internas.
-**Escalada de Privilegios:** Auditoría de permisos locales (`sudo -l`), binarios y configuraciones inseguras hasta obtener `root`.
-**Remediación y Mitigación:** Recomendaciones técnicas concretas para cerrar cada vector identificado.
+- **Reconocimiento y Escaneo:** Descubrimiento de puertos, servicios, subdominios y superficies de exposición (`nmap`, `fuzzing`).
+- **Enumeración Profunda:** Análisis de protocolos de directorio (`ldap`), código fuente web y *fingerprinting* de versiones.
+- **Explotación y Movimiento Lateral:** Análisis de causa raíz de vulnerabilidades (`CVEs`), obtención de sesiones interactivas y recuperación/descifrado de credenciales internas.
+- **Escalada de Privilegios:** Auditoría de permisos locales (`sudo -l`), binarios y configuraciones inseguras hasta obtener `root`.
+- **Remediación y Mitigación:** Recomendaciones técnicas concretas para cerrar cada vector identificado.
 
 ---
 
