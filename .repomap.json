@@ -1,5 +1,5 @@
 {
-  "ignore": [".repomap.json", ".gitkeep", ".gitignore"],
+  "ignore": [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", "docs"],
   "items": {
     "HTB": {
       "icon": "📁",
