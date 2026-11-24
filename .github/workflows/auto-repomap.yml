@@ -1,0 +1,96 @@
+name: Auto-Update RepoMap
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-map:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Actualizar .repomap.json automáticamente
+        run: |
+          python3 - << 'EOF'
+          import os, json
+
+          META_FILE = ".repomap.json"
+          DEFAULT_IGNORE = [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", "docs", ".github"]
+
+          if os.path.exists(META_FILE):
+              with open(META_FILE, "r", encoding="utf-8") as f:
+                  data = json.load(f)
+          else:
+              data = {"ignore": DEFAULT_IGNORE, "items": {}}
+
+          ignore = set(data.get("ignore", DEFAULT_IGNORE))
+          ignore.add(".github")
+          data["ignore"] = sorted(ignore)
+          items = data.setdefault("items", {})
+
+          FOLDER_ICONS = {"HTB": "🟢", "CTFs": "🚩", "learning": "📚"}
+
+          def extract_md_title(filepath):
+              try:
+                  with open(filepath, "r", encoding="utf-8") as f:
+                      for line in f:
+                          line = line.strip()
+                          if line.startswith("# "):
+                              return line[2:].strip()[:70]
+              except Exception:
+                  pass
+              return ""
+
+          valid_paths = set()
+          for root, dirs, files in os.walk("."):
+              rel_root = "" if root == "." else os.path.relpath(root, ".").replace("\\", "/")
+              dirs[:] = [
+                  d for d in dirs
+                  if d != ".git" and d not in ignore
+                  and (f"{rel_root}/{d}" if rel_root else d) not in ignore
+              ]
+
+              for d in dirs:
+                  rel_path = f"{rel_root}/{d}" if rel_root else d
+                  valid_paths.add(rel_path)
+                  if rel_path not in items:
+                      items[rel_path] = {
+                          "icon": FOLDER_ICONS.get(d, "📁"),
+                          "description": f"Carpeta {d}"
+                      }
+
+              for file in files:
+                  rel_path = f"{rel_root}/{file}" if rel_root else file
+                  if file in ignore or rel_path in ignore:
+                      continue
+                  valid_paths.add(rel_path)
+                  if rel_path not in items:
+                      ext = os.path.splitext(file)[1].lower()
+                      icon = "🛡️" if ext == ".md" and rel_path != "README.md" else ("🐍" if ext == ".py" else "📄")
+                      desc = extract_md_title(rel_path) if ext == ".md" else ""
+                      entry = {"icon": icon}
+                      if desc:
+                          entry["description"] = desc
+                      items[rel_path] = entry
+
+          data["items"] = {k: v for k, v in items.items() if k in valid_paths}
+
+          with open(META_FILE, "w", encoding="utf-8") as f:
+              json.dump(data, f, indent=2, ensure_ascii=False)
+              f.write("\n")
+          EOF
+
+      - name: Guardar cambios si hubo archivos nuevos
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .repomap.json
+          if ! git diff --staged --quiet; then
+            git commit -m "chore: auto-update .repomap.json"
+            git push
+          fi
