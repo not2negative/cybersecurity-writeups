@@ -9,6 +9,7 @@ En este repositorio almaceno mis writeups con documentación detallada, análisi
 
 ## Mapa detallado del repositorio
 
+[![Mapa del Repositorio](https://github-tree-widget.vercel.app/api/svg?user=SU_USUARIO&repo=SU_REPO)](https://github-tree-widget.vercel.app/?user=SU_USUARIO&repo=SU_REPO)
 
 ---
 
