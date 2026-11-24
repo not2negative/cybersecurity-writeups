@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa Interactivo — Cybersecurity Writeups</title>
+  <style>
+    body {
+      background: #010409;
+      color: #e6edf3;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 960px;
+      margin: 32px auto;
+      padding: 0 16px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    a { color: #58a6ff; text-decoration: none; }
+    iframe {
+      width: 100%;
+      height: 460px;
+      border: none;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Cybersecurity Writeups — Explorador Interactivo</h2>
+    <a href="https://github.com/not2negative/cybersecurity-writeups">← Volver al repositorio</a>
+  </header>
+
+  <iframe
+    src="https://github-tree-widget.vercel.app/?user=not2negative&repo=cybersecurity-writeups"
+    title="Mapa interactivo del repositorio"
+    loading="lazy">
+  </iframe>
+</body>
+</html>

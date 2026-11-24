@@ -9,7 +9,6 @@ En este repositorio almaceno mis writeups con documentación detallada, análisi
 
 ## Mapa detallado del repositorio
 
-[![Mapa del Repositorio](https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups)](https://github-tree-widget.vercel.app/?user=not2negative&repo=cybersecurity-writeups)
 
 ---
 
