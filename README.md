@@ -9,6 +9,7 @@ En este repositorio almaceno mis writeups con documentación detallada, análisi
 
 ## Mapa detallado del repositorio
 
+<<<<<<< HEAD
 <pre>
 📂 <b>cybersecurity-writeups/</b>
 ├── 📁 <a href="./HTB">HTB/</a>
@@ -18,6 +19,9 @@ En este repositorio almaceno mis writeups con documentación detallada, análisi
 │       └── 📄 
 └── 📄 <a href="./README.md">README.md</a>                                # README Principal del repositorio
 </pre>
+=======
+[![Mapa del Repositorio](https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups)](https://github-tree-widget.vercel.app/?user=not2negative&repo=cybersecurity-writeups)
+>>>>>>> 203ed6d (feat: added widget for repository map)
 
 ---
 
