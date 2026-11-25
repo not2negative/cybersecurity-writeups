@@ -1,25 +1,17 @@
 {
-  "ignore": [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", "docs"],
+  "ignore": [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", ".github", "docs"],
   "items": {
     "HTB": {
-      "icon": "📁",
-      "description": "Máquinas y laboratorios de Hack The Box"
+      "description": "Hack The Box machines and labs"
     },
     "HTB/management.htb.md": {
-      "icon": "🛡️",
       "description": "OpenAM RCE (CVE-2026-33439), GLPI & rdiff-backup"
     },
     "CTFs": {
-      "icon": "🚩",
-      "description": "Competencias universitarias y eventos"
-    },
-    "CTFs/USM 27.11": {
-      "icon": "⚔️",
-      "description": "Preparación CTF USM"
+      "description": "CTF competitions and challenges"
     },
     "README.md": {
-      "icon": "📄",
-      "description": "Índice principal del repositorio"
+      "description": "Repository overview and index"
     }
   }
 }

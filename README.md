@@ -3,44 +3,44 @@
 ![Kali Linux](https://img.shields.io/badge/Kali%20Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
 ![Hack The Box](https://img.shields.io/badge/Hack%20The%20Box-9FEF00?style=for-the-badge&logo=hackthebox&logoColor=black)
 
-En este repositorio almaceno mis writeups con documentación detallada, análisis de vulnerabilidades y guías de remediación de máquinas y retos de ciberseguridad resueltos de forma práctica.
+Technical writeups, vulnerability root-cause analyses, and remediation guides for authorized lab environments and CTF challenges.
 
 ---
 
-## Mapa detallado del repositorio
+## Repository Structure
 
-[![Mapa del Repositorio](https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups)](https://github-tree-widget.vercel.app/?user=not2negative&repo=cybersecurity-writeups)
+[![map1](https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups)](https://github-tree-widget.vercel.app/?user=not2negative&repo=cybersecurity-writeups)
+*[Open interactive explorer](https://not2negative.github.io/cybersecurity-writeups/)*
 
 ---
 
-## Índice de Writeups
+## Writeups Index
 
-### ![Hack The Box](https://img.shields.io/badge/-Hack%20The%20Box-141D2B?style=flat-square&logo=hackthebox&logoColor=9FEF00) Hack The Box
+### ![HTB](https://img.shields.io/badge/-Hack%20The%20Box-141D2B?style=flat-square&logo=hackthebox&logoColor=9FEF00) Hack The Box
 
-| Máquina | Sistema | Dificultad | Vectores y Tecnologías Clave | Fecha |
+| Machine | OS | Difficulty | Key Vectors & Technologies | Date |
 | :--- | :---: | :---: | :--- | :---: |
-| [**Management**](./HTB/management.htb.md) | ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black) | ![Easy](https://img.shields.io/badge/Easy-2ECC71?style=flat-square) | `LDAP` · `OpenAM (CVE-2026-33439)` · `GLPI (libsodium)` · `rdiff-backup` | Nov 2026 |
+| [**Management**](./HTB/management.htb.md) | Linux | Easy | `LDAP` · `OpenAM (CVE-2026-33439)` · `GLPI (libsodium)` · `rdiff-backup` | Nov 2026 |
 
 ---
 
-### ![CTF](https://img.shields.io/badge/-CTFs%20%26%20Eventos-141D2B?style=flat-square&logo=hackaday&logoColor=white) Competencias CTF
+### ![CTF](https://img.shields.io/badge/-CTFs%20%26%20Eventos-141D2B?style=flat-square&logo=hackaday&logoColor=white) CTFs & Events
 
-| Evento / Reto | Categoría | Dificultad | Conceptos Aplicados | Fecha |
+| Event / Challenge | Category | Difficulty | Concepts | Date |
 | :--- | :---: | :---: | :--- | :---: |
-| *Próximo evento — CTF USM* | `Web / Linux / Crypto` | — | *En preparación* | Nov 2026 |
+| *USM CTF (In progress)* | `Web / Linux / Crypto` | — | *Upcoming* | Nov 2026 |
 
 ---
 
-## Metodología Aplicada Constantemente
+## Methodology for Writeups
 
-Cada writeup sigue un flujo estructurado orientado tanto a la explotación como a la defensa:
-- **Reconocimiento y Escaneo:** Descubrimiento de puertos, servicios, subdominios y superficies de exposición (`nmap`, `fuzzing`).
-- **Enumeración Profunda:** Análisis de protocolos de directorio (`ldap`), código fuente web y *fingerprinting* de versiones.
-- **Explotación y Movimiento Lateral:** Análisis de causa raíz de vulnerabilidades (`CVEs`), obtención de sesiones interactivas y recuperación/descifrado de credenciales internas.
-- **Escalada de Privilegios:** Auditoría de permisos locales (`sudo -l`), binarios y configuraciones inseguras hasta obtener `root`.
-- **Remediación y Mitigación:** Recomendaciones técnicas concretas para cerrar cada vector identificado.
+- **Reconnaissance:** Port scanning, service enumeration, and attack surface mapping (`nmap`, fuzzing).
+- **Enumeration:** Directory services (`LDAP`), web source inspection, and version fingerprinting.
+- **Exploitation:** CVE root-cause analysis, initial access, and credential recovery.
+- **Privilege Escalation:** Local permission auditing (`sudo -l`), binary analysis, and misconfigurations.
+- **Remediation:** Concrete technical mitigations for each identified vulnerability.
 
 ---
 
 > [!NOTE]
-> Todos los ejercicios documentados en este repositorio fueron realizados exclusivamente en entornos de laboratorio autorizados con fines educativos y de aprendizaje profesional.
+> All exercises documented in this repository were conducted strictly in authorized lab environments for educational purposes.

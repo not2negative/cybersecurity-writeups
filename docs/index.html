@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mapa Interactivo — Cybersecurity Writeups</title>
+  <title>Repository Map — Cybersecurity Writeups</title>
   <style>
     body {
       background: #010409;
@@ -19,7 +19,9 @@
       align-items: center;
       margin-bottom: 16px;
     }
-    a { color: #58a6ff; text-decoration: none; }
+    h2 { font-size: 18px; font-weight: 600; margin: 0; }
+    a { color: #58a6ff; text-decoration: none; font-size: 14px; }
+    a:hover { text-decoration: underline; }
     iframe {
       width: 100%;
       height: 460px;
@@ -30,13 +32,13 @@
 </head>
 <body>
   <header>
-    <h2>Cybersecurity Writeups — Explorador Interactivo</h2>
-    <a href="https://github.com/not2negative/cybersecurity-writeups">← Volver al repositorio</a>
+    <h2>Cybersecurity Writeups — Repository Explorer</h2>
+    <a href="https://github.com/not2negative/cybersecurity-writeups">← Back to repository</a>
   </header>
 
   <iframe
     src="https://github-tree-widget.vercel.app/?user=not2negative&repo=cybersecurity-writeups"
-    title="Mapa interactivo del repositorio"
+    title="Interactive repository map"
     loading="lazy">
   </iframe>
 </body>

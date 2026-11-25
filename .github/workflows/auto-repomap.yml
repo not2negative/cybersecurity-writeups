@@ -14,13 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Actualizar .repomap.json automáticamente
+      - name: Update .repomap.json
         run: |
           python3 - << 'EOF'
           import os, json
 
           META_FILE = ".repomap.json"
-          DEFAULT_IGNORE = [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", "docs", ".github"]
+          DEFAULT_IGNORE = [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", ".github", "docs"]
 
           if os.path.exists(META_FILE):
               with open(META_FILE, "r", encoding="utf-8") as f:
@@ -32,8 +32,6 @@ jobs:
           ignore.add(".github")
           data["ignore"] = sorted(ignore)
           items = data.setdefault("items", {})
-
-          FOLDER_ICONS = {"HTB": "🟢", "CTFs": "🚩", "learning": "📚"}
 
           def extract_md_title(filepath):
               try:
@@ -59,10 +57,7 @@ jobs:
                   rel_path = f"{rel_root}/{d}" if rel_root else d
                   valid_paths.add(rel_path)
                   if rel_path not in items:
-                      items[rel_path] = {
-                          "icon": FOLDER_ICONS.get(d, "📁"),
-                          "description": f"Carpeta {d}"
-                      }
+                      items[rel_path] = {"description": f"{d} directory"}
 
               for file in files:
                   rel_path = f"{rel_root}/{file}" if rel_root else file
@@ -71,12 +66,8 @@ jobs:
                   valid_paths.add(rel_path)
                   if rel_path not in items:
                       ext = os.path.splitext(file)[1].lower()
-                      icon = "🛡️" if ext == ".md" and rel_path != "README.md" else ("🐍" if ext == ".py" else "📄")
                       desc = extract_md_title(rel_path) if ext == ".md" else ""
-                      entry = {"icon": icon}
-                      if desc:
-                          entry["description"] = desc
-                      items[rel_path] = entry
+                      items[rel_path] = {"description": desc} if desc else {}
 
           data["items"] = {k: v for k, v in items.items() if k in valid_paths}
 
@@ -85,12 +76,12 @@ jobs:
               f.write("\n")
           EOF
 
-      - name: Guardar cambios si hubo archivos nuevos
+      - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add .repomap.json
           if ! git diff --staged --quiet; then
-            git commit -m "chore: auto-update .repomap.json"
+            git commit -m "chore: update .repomap.json"
             git push
           fi
