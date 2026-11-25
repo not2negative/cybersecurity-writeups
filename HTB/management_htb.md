@@ -11,7 +11,7 @@ La máquina Management en Hack The Box es un laboratorio basado en Linux calific
 
 En esta ocasión veremos tecnologías clave como lo son *OpenAM*, *OpenDJ (LDAP)*, *GLPI* y *rdiff-backup*.
 
-Link oficial de la maquina: https://app.hackthebox.com/machines/Management
+**Enlace oficial de la maquina:** https://app.hackthebox.com/machines/Management
 
 ## Cadena de ataque
 ### 1. Enumeración y acceso inicial
@@ -26,7 +26,7 @@ Link oficial de la maquina: https://app.hackthebox.com/machines/Management
 - Al revisar los privilegios sudo del usuario, se detecta una regla mal configurada al final.
 - Aprovechando las opciones, es posible anular la restricción de directorio original y respaldar */root* en una carpeta accesible para el usuario, obteniendo así acceso total.
 
-# Fase de Escaneo
+# FASE DE ESCANEO
 **1. Conectarse a la maquina:**
 ```bash
 sudo openvpn <NOMBRE_MAQUINA>
@@ -742,7 +742,7 @@ owen@management:~$ cat /tmp/root_backup/root.txt
 </details>
 ­­
 
-# Fase de Remediación y Mitigación
+# FASE DE REMEDIACION Y MITIGACIÓN
 Para cerrar los vectores de ataque identificados durante la evaluación, se recomiendan las siguientes medidas técnicas:
 
 - **Actualización de OpenAM (`CVE-2026-33439`):**
