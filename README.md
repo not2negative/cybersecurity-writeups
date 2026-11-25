@@ -10,6 +10,15 @@ Technical writeups, vulnerability root-cause analyses, and remediation guides fo
 ## Repository Structure
 
 <!-- REPOMAP:START -->
+<p align="center">
+  <a href="https://github.com/not2negative/cybersecurity-writeups"><img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&row=0&v=4749ea" width="100%" /></a><br/>
+  <a href="https://github.com/not2negative/cybersecurity-writeups/tree/main/CTFs"><img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&row=1&v=4749ea" width="100%" /></a><br/>
+  <a href="https://github.com/not2negative/cybersecurity-writeups/tree/main/CTFs/UMBRAL%20CTF%20CYVIAN"><img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&row=2&v=4749ea" width="100%" /></a><br/>
+  <a href="https://github.com/not2negative/cybersecurity-writeups/blob/main/CTFs/UMBRAL%20CTF%20CYVIAN/portal_de_empleados.md"><img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&row=3&v=4749ea" width="100%" /></a><br/>
+  <a href="https://github.com/not2negative/cybersecurity-writeups/tree/main/HTB"><img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&row=4&v=4749ea" width="100%" /></a><br/>
+  <a href="https://github.com/not2negative/cybersecurity-writeups/blob/main/HTB/management_htb.md"><img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&row=5&v=4749ea" width="100%" /></a><br/>
+  <a href="https://github.com/not2negative/cybersecurity-writeups/blob/main/README.md"><img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&row=6&v=4749ea" width="100%" /></a>
+</p>
 <!-- REPOMAP:END -->
 
 <p align="center">
