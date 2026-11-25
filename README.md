@@ -24,6 +24,7 @@ Technical writeups, vulnerability root-cause analyses, and remediation guides fo
 <p align="center">
   <a href="https://not2negative.github.io/cybersecurity-writeups/"><strong>Open Interactive Explorer</strong></a>
 </p>
+
 ---
 
 ## Writeups Index
