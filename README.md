@@ -11,7 +11,7 @@ Technical writeups, vulnerability root-cause analyses, and remediation guides fo
 
 <p align="center">
   <a href="https://not2negative.github.io/cybersecurity-writeups/">
-    <img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&v=2" width="100%" alt="Repository Structure" />
+    <img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&v=3" width="100%" alt="Repository Structure" />
   </a>
 </p>
 
@@ -35,8 +35,8 @@ Technical writeups, vulnerability root-cause analyses, and remediation guides fo
 
 | Event / Challenge | Category | Format / Difficulty | Key Concepts & Notes | Date |
 | :--- | :---: | :---: | :--- | :---: |
-| [**Campo de Marte CTF — INACAP Valparaíso**](https://www.linkedin.com/feed/update/urn:li:activity:7496781759699763201/) | `Attack & Defense` | Live A/D | `Infrastructure Defense` `Vulnerability Analysis` `Network Security` | Aug 2026 |
-| *USM CTF (In progress)* | `Web` `Linux` `Crypto` | Jeopardy | *Upcoming* | Nov 2026 |
+| [**Campo de Marte CTF — INACAP Valparaíso**](https://www.linkedin.com/feed/update/urn:li:activity:7496781759699763201/) | `Attack & Defense` | Live A/D | `Infrastructure Defense` `Vulnerability Analysis` `Network Security` | 21 Aug 2026 |
+| *Campo de Marte CTF — USM Valparaíso (In progress)* | `Web` `Linux` `Crypto` | Unknown | *Upcoming* | 27 Nov 2026 |
 
 ---
 
