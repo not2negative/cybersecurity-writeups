@@ -11,7 +11,7 @@ Technical writeups, vulnerability root-cause analyses, and remediation guides fo
 
 <p align="center">
   <a href="https://not2negative.github.io/cybersecurity-writeups/">
-    <img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&v=3" width="100%" alt="Repository Structure" />
+    <img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&v=4" width="100%" alt="Repository Structure" />
   </a>
 </p>
 
