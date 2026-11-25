@@ -1,3 +1,11 @@
+<!-- meta
+title: Management
+os: Linux
+difficulty: Easy
+vectors: LDAP · OpenAM (CVE-2026-33439) · GLPI (libsodium) · rdiff-backup
+date: Nov 2026
+-->
+
 # Introducción al documento
 La máquina Management en Hack The Box es un laboratorio basado en Linux calificado con una dificultad *Easy*, creado por TheCyberGeek y lanzado en septiembre de 2026, y está centrado en explotación web, descifrado de credenciales y abuso de permisos sudo.
 

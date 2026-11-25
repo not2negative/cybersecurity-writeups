@@ -1,4 +1,4 @@
-name: Auto-Update RepoMap
+name: Auto-Update RepoMap & Index
 
 on:
   push:
@@ -13,13 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Update .repomap.json
+      - name: Update .repomap.json and Writeups Index
         run: |
           python3 - << 'EOF'
-          import os, json
+          import os, re, json, subprocess
+          from datetime import datetime
 
           META_FILE = ".repomap.json"
+          README_FILE = "README.md"
           DEFAULT_IGNORE = [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", ".github", "docs"]
 
           if os.path.exists(META_FILE):
@@ -29,20 +33,66 @@ jobs:
               data = {"ignore": DEFAULT_IGNORE, "items": {}}
 
           ignore = set(data.get("ignore", DEFAULT_IGNORE))
-          ignore.add(".github")
+          ignore.update([".github", "docs", ".nojekyll"])
           data["ignore"] = sorted(ignore)
           items = data.setdefault("items", {})
 
-          def extract_md_title(filepath):
+          def parse_writeup_meta(filepath):
+              meta = {}
+              title = ""
+              body_sample = ""
               try:
                   with open(filepath, "r", encoding="utf-8") as f:
-                      for line in f:
-                          line = line.strip()
-                          if line.startswith("# "):
-                              return line[2:].strip()[:70]
+                      content = f.read()
+                  m = re.search(r"<!--\s*meta\s*(.*?)\s*-->", content, re.DOTALL | re.IGNORECASE)
+                  if m:
+                      for line in m.group(1).splitlines():
+                          if ":" in line:
+                              k, v = line.split(":", 1)
+                              meta[k.strip().lower()] = v.strip()
+                  for line in content.splitlines():
+                      s = line.strip()
+                      if s.startswith("# ") and not title:
+                          title = s[2:].strip()
+                          break
+                  body_sample = content[:1500].lower()
               except Exception:
                   pass
-              return ""
+
+              if "title" not in meta:
+                  if title:
+                      meta["title"] = title
+                  else:
+                      stem = os.path.splitext(os.path.basename(filepath))[0]
+                      stem = re.sub(r"[._-]htb$", "", stem, flags=re.IGNORECASE)
+                      meta["title"] = stem.replace("_", " ").replace("-", " ").title()
+
+              if "os" not in meta:
+                  meta["os"] = "Windows" if "windows" in body_sample else "Linux"
+
+              if "difficulty" not in meta:
+                  for diff in ("Easy", "Medium", "Hard", "Insane"):
+                      if diff.lower() in body_sample:
+                          meta["difficulty"] = diff
+                          break
+                  else:
+                      meta["difficulty"] = "—"
+
+              if "vectors" not in meta:
+                  desc = items.get(filepath, {}).get("description", "")
+                  meta["vectors"] = desc if desc else (title[:65] if title else "—")
+
+              if "date" not in meta:
+                  try:
+                      out = subprocess.check_output(
+                          ["git", "log", "-1", "--format=%cd", "--date=format:%b %Y", "--", filepath],
+                          text=True
+                      ).strip()
+                      meta["date"] = out if out else datetime.utcnow().strftime("%b %Y")
+                  except Exception:
+                      meta["date"] = datetime.utcnow().strftime("%b %Y")
+
+              return meta
 
           valid_paths = set()
           for root, dirs, files in os.walk("."):
@@ -66,22 +116,58 @@ jobs:
                   valid_paths.add(rel_path)
                   if rel_path not in items:
                       ext = os.path.splitext(file)[1].lower()
-                      desc = extract_md_title(rel_path) if ext == ".md" else ""
-                      items[rel_path] = {"description": desc} if desc else {}
+                      if ext == ".md":
+                          m = parse_writeup_meta(rel_path)
+                          desc = m.get("vectors") if m.get("vectors") != "—" else m.get("title", "")
+                          items[rel_path] = {"description": desc[:70]} if desc else {}
+                      else:
+                          items[rel_path] = {}
 
           data["items"] = {k: v for k, v in items.items() if k in valid_paths}
 
           with open(META_FILE, "w", encoding="utf-8") as f:
               json.dump(data, f, indent=2, ensure_ascii=False)
               f.write("\n")
+
+          if os.path.exists(README_FILE) and os.path.isdir("HTB"):
+              htb_files = sorted(
+                  f"HTB/{fn}" for fn in os.listdir("HTB")
+                  if fn.endswith(".md") and fn not in ignore
+              )
+              rows = [
+                  "| Machine | OS | Difficulty | Key Vectors & Technologies | Date |",
+                  "| :--- | :---: | :---: | :--- | :---: |"
+              ]
+              for fp in htb_files:
+                  m = parse_writeup_meta(fp)
+                  vectors = m["vectors"]
+                  if "`" not in vectors and "·" in vectors:
+                      vectors = " · ".join(f"`{v.strip()}`" for v in vectors.split("·"))
+                  rows.append(
+                      f"| [**{m['title']}**](./{fp}) | {m['os']} | {m['difficulty']} | {vectors} | {m['date']} |"
+                  )
+              table_block = "<!-- HTB-INDEX:START -->\n" + "\n".join(rows) + "\n<!-- HTB-INDEX:END -->"
+
+              with open(README_FILE, "r", encoding="utf-8") as f:
+                  readme = f.read()
+
+              new_readme, count = re.subn(
+                  r"<!-- HTB-INDEX:START -->.*?<!-- HTB-INDEX:END -->",
+                  table_block,
+                  readme,
+                  flags=re.DOTALL
+              )
+              if count > 0 and new_readme != readme:
+                  with open(README_FILE, "w", encoding="utf-8") as f:
+                      f.write(new_readme)
           EOF
 
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .repomap.json
+          git add .repomap.json README.md
           if ! git diff --staged --quiet; then
-            git commit -m "chore: update .repomap.json"
+            git commit -m "chore: update repomap and writeups index"
             git push
           fi
