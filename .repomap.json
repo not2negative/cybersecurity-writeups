@@ -1,5 +1,12 @@
 {
-  "ignore": [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", ".github", "docs"],
+  "ignore": [
+    ".github",
+    ".gitignore",
+    ".gitkeep",
+    ".nojekyll",
+    ".repomap.json",
+    "docs"
+  ],
   "items": {
     "README.md": {
       "description": "Repository overview and index"
