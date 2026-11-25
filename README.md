@@ -23,22 +23,20 @@ Technical writeups, vulnerability root-cause analyses, and remediation guides fo
 
 ## Writeups Index
 
-### ![HTB](https://img.shields.io/badge/-Hack%20The%20Box-141D2B?style=flat-square&logo=hackthebox&logoColor=9FEF00) Hack The Box
+### ![Hack The Box](https://img.shields.io/badge/-Hack_The_Box-141D2B?style=flat-square&logo=hackthebox&logoColor=9FEF00) Hack The Box
 
 <!-- HTB-INDEX:START -->
 | Machine | OS | Difficulty | Key Vectors & Technologies | Date |
 | :--- | :---: | :---: | :--- | :---: |
-| [**Management**](./HTB/management_htb.md) | Linux | Easy | `LDAP` · `OpenAM (CVE-2026-33439)` · `GLPI (libsodium)` · `rdiff-backup` | Nov 2026 |
+| [**Management**](./HTB/management_htb.md) | Linux | Easy | `LDAP` `OpenAM (CVE-2026-33439)` `GLPI (libsodium)` `rdiff-backup` | Nov 2026 |
 <!-- HTB-INDEX:END -->
 
----
-
-### ![CTF](https://img.shields.io/badge/-CTFs%20%26%20Eventos-141D2B?style=flat-square&logo=hackaday&logoColor=white) CTFs & Events
+### ![CTFs](https://img.shields.io/badge/-CTFs_%26_Events-141D2B?style=flat-square&logo=hackaday&logoColor=white) CTFs & Events
 
 | Event / Challenge | Category | Format / Difficulty | Key Concepts & Notes | Date |
 | :--- | :---: | :---: | :--- | :---: |
-| *USM CTF (In progress)* | `Web / Linux / Crypto` | Jeopardy | *Upcoming* | Nov 2026 |
-| [**Campo de Marte CTF — INACAP Valparaíso**](https://www.linkedin.com/feed/update/urn:li:activity:7496781759699763201/) | `Attack & Defense` | Live A/D | Infrastructure Defense · Vulnerability Analysis · Network Security | Aug 2026 |
+| [**Campo de Marte CTF — INACAP Valparaíso**](https://www.linkedin.com/feed/update/urn:li:activity:7496781759699763201/) | `Attack & Defense` | Live A/D | `Infrastructure Defense` `Vulnerability Analysis` `Network Security` | Aug 2026 |
+| *USM CTF (In progress)* | `Web` `Linux` `Crypto` | Jeopardy | *Upcoming* | Nov 2026 |
 
 ---
 

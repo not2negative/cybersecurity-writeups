@@ -2,7 +2,7 @@
 title: Management
 os: Linux
 difficulty: Easy
-vectors: LDAP · OpenAM (CVE-2026-33439) · GLPI (libsodium) · rdiff-backup
+vectors: `LDAP` `OpenAM (CVE-2026-33439)` `GLPI (libsodium)` `rdiff-backup`
 date: Nov 2026
 -->
 

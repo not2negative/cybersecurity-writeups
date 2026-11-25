@@ -142,7 +142,7 @@ jobs:
                   m = parse_writeup_meta(fp)
                   vectors = m["vectors"]
                   if "`" not in vectors and "·" in vectors:
-                      vectors = " · ".join(f"`{v.strip()}`" for v in vectors.split("·"))
+                    vectors = " ".join(f"`{v.strip()}`" for v in vectors.split("·"))
                   rows.append(
                       f"| [**{m['title']}**](./{fp}) | {m['os']} | {m['difficulty']} | {vectors} | {m['date']} |"
                   )

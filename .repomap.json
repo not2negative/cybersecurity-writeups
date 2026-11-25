@@ -1,28 +1,23 @@
 {
-  "ignore": [
-    ".github",
-    ".gitignore",
-    ".gitkeep",
-    ".nojekyll",
-    ".repomap.json",
-    "docs"
-  ],
+  "ignore": [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", ".github", "docs"],
   "items": {
-    "HTB": {
-      "description": "Hack The Box machines and labs"
+    "README.md": {
+      "description": "Repository overview and index"
     },
     "CTFs": {
       "description": "CTF competitions and challenges"
     },
-    "README.md": {
-      "description": "Repository overview and index"
-    },
     "CTFs/UMBRAL CTF CYVIAN": {
-      "description": "UMBRAL CTF CYVIAN directory"
+      "description": "Backup for CYVIAN Umbral CTF writeups"
     },
-    "CTFs/UMBRAL CTF CYVIAN/portal_de_empleados.md": {},
+    "CTFs/UMBRAL CTF CYVIAN/portal_de_empleados.md": {
+      "description": "SQLi & IDOR (Employee Portal Themed challenge)"
+    },
+    "HTB": {
+      "description": "Hack The Box machines and labs"
+    },
     "HTB/management_htb.md": {
-      "description": "Introducción al documento"
+      "description": "OpenAM RCE (CVE-2026-33439), GLPI & rdiff-backup"
     }
   }
 }
