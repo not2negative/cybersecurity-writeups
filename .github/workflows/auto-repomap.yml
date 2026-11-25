@@ -16,14 +16,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Update .repomap.json and Writeups Index
+      - name: Update .repomap.json, README map and Writeups Index
         run: |
           python3 - << 'EOF'
-          import os, re, json, subprocess
+          import os, re, json, hashlib, subprocess
           from datetime import datetime
+          from urllib.parse import quote
 
           META_FILE = ".repomap.json"
           README_FILE = "README.md"
+          REPO_USER = "not2negative"
+          REPO_NAME = "cybersecurity-writeups"
+          WIDGET_BASE = "https://github-tree-widget.vercel.app"
           DEFAULT_IGNORE = [".repomap.json", ".gitkeep", ".gitignore", ".nojekyll", ".github", "docs"]
 
           if os.path.exists(META_FILE):
@@ -129,37 +133,83 @@ jobs:
               json.dump(data, f, indent=2, ensure_ascii=False)
               f.write("\n")
 
-          if os.path.exists(README_FILE) and os.path.isdir("HTB"):
-              htb_files = sorted(
-                  f"HTB/{fn}" for fn in os.listdir("HTB")
-                  if fn.endswith(".md") and fn not in ignore
-              )
-              rows = [
-                  "| Machine | OS | Difficulty | Key Vectors & Technologies | Date |",
-                  "| :--- | :---: | :---: | :--- | :---: |"
-              ]
-              for fp in htb_files:
-                  m = parse_writeup_meta(fp)
-                  vectors = m["vectors"]
-                  if "`" not in vectors and "·" in vectors:
-                    vectors = " ".join(f"`{v.strip()}`" for v in vectors.split("·"))
-                  rows.append(
-                      f"| [**{m['title']}**](./{fp}) | {m['os']} | {m['difficulty']} | {vectors} | {m['date']} |"
-                  )
-              table_block = "<!-- HTB-INDEX:START -->\n" + "\n".join(rows) + "\n<!-- HTB-INDEX:END -->"
-
+          if os.path.exists(README_FILE):
               with open(README_FILE, "r", encoding="utf-8") as f:
                   readme = f.read()
 
-              new_readme, count = re.subn(
-                  r"<!-- HTB-INDEX:START -->.*?<!-- HTB-INDEX:END -->",
-                  table_block,
+              if os.path.isdir("HTB"):
+                  htb_files = sorted(
+                      f"HTB/{fn}" for fn in os.listdir("HTB")
+                      if fn.endswith(".md") and fn not in ignore
+                  )
+                  rows = [
+                      "| Machine | OS | Difficulty | Key Vectors & Technologies | Date |",
+                      "| :--- | :---: | :---: | :--- | :---: |"
+                  ]
+                  for fp in htb_files:
+                      m = parse_writeup_meta(fp)
+                      vectors = m["vectors"]
+                      if "`" not in vectors and "·" in vectors:
+                          vectors = " ".join(f"`{v.strip()}`" for v in vectors.split("·"))
+                      rows.append(
+                          f"| [**{m['title']}**](./{fp}) | {m['os']} | {m['difficulty']} | {vectors} | {m['date']} |"
+                      )
+                  table_block = "<!-- HTB-INDEX:START -->\n" + "\n".join(rows) + "\n<!-- HTB-INDEX:END -->"
+                  readme, _ = re.subn(
+                      r"<!-- HTB-INDEX:START -->.*?<!-- HTB-INDEX:END -->",
+                      table_block,
+                      readme,
+                      flags=re.DOTALL
+                  )
+
+              root_node = {"name": REPO_NAME, "path": "", "type": "tree", "children": []}
+              node_map = {"": root_node}
+              entries = []
+              for p in sorted(valid_paths):
+                  is_dir = os.path.isdir(p)
+                  entries.append((0 if is_dir else 1, p, is_dir))
+              entries.sort()
+
+              for _, p, is_dir in entries:
+                  parts = p.split("/")
+                  name = parts.pop()
+                  parent = "/".join(parts)
+                  n = {"name": name, "path": p, "type": "tree" if is_dir else "blob", "children": []}
+                  node_map[p] = n
+                  if parent in node_map:
+                      node_map[parent]["children"].append(n)
+
+              ordered_nodes = []
+              def collect(n):
+                  ordered_nodes.append(n)
+                  for c in n["children"]:
+                      collect(c)
+              collect(root_node)
+
+              cache_bust = hashlib.md5(json.dumps(data, sort_keys=True).encode()).hexdigest()[:6]
+              map_lines = ['<p align="center">']
+              for idx, n in enumerate(ordered_nodes):
+                  if n["path"] == "":
+                      gh_url = f"https://github.com/{REPO_USER}/{REPO_NAME}"
+                  else:
+                      kind = "tree" if n["type"] == "tree" else "blob"
+                      encoded_p = "/".join(quote(seg) for seg in n["path"].split("/"))
+                      gh_url = f"https://github.com/{REPO_USER}/{REPO_NAME}/{kind}/main/{encoded_p}"
+                  img_url = f"{WIDGET_BASE}/api/svg?user={REPO_USER}&repo={REPO_NAME}&row={idx}&v={cache_bust}"
+                  br = "<br/>" if idx < len(ordered_nodes) - 1 else ""
+                  map_lines.append(f'  <a href="{gh_url}"><img src="{img_url}" width="100%" /></a>{br}')
+              map_lines.append("</p>")
+
+              repomap_block = "<!-- REPOMAP:START -->\n" + "\n".join(map_lines) + "\n<!-- REPOMAP:END -->"
+              readme, _ = re.subn(
+                  r"<!-- REPOMAP:START -->.*?<!-- REPOMAP:END -->",
+                  repomap_block,
                   readme,
                   flags=re.DOTALL
               )
-              if count > 0 and new_readme != readme:
-                  with open(README_FILE, "w", encoding="utf-8") as f:
-                      f.write(new_readme)
+
+              with open(README_FILE, "w", encoding="utf-8") as f:
+                  f.write(readme)
           EOF
 
       - name: Commit changes

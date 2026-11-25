@@ -9,16 +9,12 @@ Technical writeups, vulnerability root-cause analyses, and remediation guides fo
 
 ## Repository Structure
 
-<p align="center">
-  <a href="https://not2negative.github.io/cybersecurity-writeups/">
-    <img src="https://github-tree-widget.vercel.app/api/svg?user=not2negative&repo=cybersecurity-writeups&v=4" width="100%" alt="Repository Structure" />
-  </a>
-</p>
+<!-- REPOMAP:START -->
+<!-- REPOMAP:END -->
 
 <p align="center">
   <a href="https://not2negative.github.io/cybersecurity-writeups/"><strong>Open Interactive Explorer</strong></a>
 </p>
-
 ---
 
 ## Writeups Index
