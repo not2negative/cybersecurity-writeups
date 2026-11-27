@@ -25,6 +25,9 @@
     },
     "HTB/management_htb.md": {
       "description": "OpenAM RCE (CVE-2026-33439), GLPI & rdiff-backup"
+    },
+    "CTFs/UMBRAL CTF CYVIAN/mis_facturas.md": {
+      "description": "`Web` `IDOR` `API`"
     }
   }
 }
